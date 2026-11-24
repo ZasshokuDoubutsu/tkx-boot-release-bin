@@ -1,0 +1,7 @@
+# TKX boot app A/B manifest
+# version 必须和 ESP 固件里的 FW_VERSION_U32 一致。
+# a_url / b_url 可以省略；省略时 ESP 回退到 config.h 的 FW_URL_A / FW_URL_B。
+# 想锁定具体 release，可以把下面两行取消注释并改成对应 tag。
+version=0x00010001
+# a_url=https://github.com/ZasshokuDoubutsu/tkx-boot-release-bin/releases/download/v1.0.1/tkx-boot-app-A.bin
+# b_url=https://github.com/ZasshokuDoubutsu/tkx-boot-release-bin/releases/download/v1.0.1/tkx-boot-app-B.bin
