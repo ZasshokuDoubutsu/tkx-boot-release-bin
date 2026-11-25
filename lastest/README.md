@@ -13,37 +13,35 @@ SHA256 见 `SHA256SUMS.txt`。
 2. 上传：
    - `tkx-boot-app-A.bin`
    - `tkx-boot-app-B.bin`
-   - `manifest.txt`
-3. `manifest.txt` 里的 `version` 必须和 ESP 固件里的 `FW_VERSION_U32` 一致。
+   - `version.txt`
+3. `version.txt` 的版本号必须和 ESP 固件里的 `FW_VERSION_U32` 一致。
 4. 如果这次改了版本号，ESP 端也要同步改 `FW_VERSION_U32` 并重新编译；这个值会写进 BL 的 Meta。
 
-## manifest 说明
+## version.txt
 
-`manifest.txt` 只写了版本：
+内容只有一行：
 
 ```text
-version=0x00010001
+0x00010001
 ```
 
-`a_url` / `b_url` 省略时，ESP 会用 `config.h` 里的 `FW_URL_A` / `FW_URL_B`，默认指向：
+ESP 下载后只用它和 `/otaA.ver`、`/otaB.ver` 比较。A/B 的下载地址固定用 `config.h` 里的 `FW_URL_A` / `FW_URL_B`：
 
 ```text
 https://github.com/ZasshokuDoubutsu/tkx-boot-release-bin/releases/latest/download/tkx-boot-app-A.bin
 https://github.com/ZasshokuDoubutsu/tkx-boot-release-bin/releases/latest/download/tkx-boot-app-B.bin
 ```
 
-想锁定某个 release，把 `manifest.txt` 里注释掉的 `a_url` / `b_url` 改成对应 tag 的地址。
-
 ## ESP 端怎么启用版本比较
 
-把 `MANIFEST_URL` 改成：
+把 `VERSION_URL` 改成：
 
 ```cpp
-#define MANIFEST_URL "https://github.com/ZasshokuDoubutsu/tkx-boot-release-bin/releases/latest/download/manifest.txt"
+#define VERSION_URL "https://github.com/ZasshokuDoubutsu/tkx-boot-release-bin/releases/latest/download/version.txt"
 ```
 
 - 留空：每次进 BL 都会重新下载并刷写
-- 填上：A/B 两个槽的版本都等于 manifest 的 `version` 后，直接跳过，不碰 BL
+- 填上：A/B 两个槽的版本都等于 `version.txt` 后，直接跳过，不碰 BL
 
 ## 校验
 
